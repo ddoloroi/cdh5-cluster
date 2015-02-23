@@ -1,0 +1,48 @@
+- hosts: all
+  sudo: true
+  tasks:
+    - yum: name=libselinux-python
+    - copy: src=config/hosts dest=/etc/hosts
+
+- hosts: zookeeper0
+  sudo: true
+  tasks:
+    - shell: hostname zookeeper0
+    - shell: /etc/init.d/network restart 
+
+- hosts: zookeeper1
+  sudo: true
+  tasks:
+    - shell: hostname zookeeper1
+    - shell: /etc/init.d/network restart
+
+- hosts: zookeeper2
+  sudo: true
+  tasks:
+    - shell: hostname zookeeper2
+    - shell: /etc/init.d/network restart
+
+- hosts: all
+  sudo: true
+  tasks:
+    - get_url: url=http://archive.cloudera.com/cm5/redhat/6/x86_64/cm/cloudera-manager.repo dest=/etc/yum.repos.d
+    - yum: name=oracle-j2sdk1.7
+    - yum: name=cloudera-manager-agent
+    - yum: name=cloudera-manager-daemons
+
+- hosts: cdh
+  sudo: true
+  tasks:
+    - user: name=vagrant generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file=.ssh/id_rsa
+    - fetch: src=/home/vagrant/.ssh/id_rsa.pub dest=config/ flat=yes
+    - fetch: src=/home/vagrant/.ssh/id_rsa dest=config/ flat=yes
+    - yum: name=cloudera-manager-server-db-2
+    - yum: name=cloudera-manager-server
+    - shell: service cloudera-scm-server start
+
+- hosts: all
+  sudo: true
+  tasks:
+    - shell: service cloudera-scm-agent start
+    - authorized_key: user=vagrant key="{{ lookup('file', 'config/id_rsa.pub') }}"
+    - shell: echo "vm.swappiness=0" >> /etc/sysctl.conf 
