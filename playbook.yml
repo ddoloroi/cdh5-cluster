@@ -22,6 +22,60 @@
     - shell: hostname zookeeper2
     - shell: /etc/init.d/network restart
 
+- hosts: hdfs0
+  sudo: true
+  tasks:
+    - shell: hostname hdfs0
+    - shell: /etc/init.d/network restart
+
+- hosts: hdfs1
+  sudo: true
+  tasks:
+    - shell: hostname hdfs1
+    - shell: /etc/init.d/network restart
+
+- hosts: hdfs2
+  sudo: true
+  tasks:
+    - shell: hostname hdfs2
+    - shell: /etc/init.d/network restart
+
+- hosts: hbase0
+  sudo: true
+  tasks:
+    - shell: hostname hbase0
+    - shell: /etc/init.d/network restart
+
+- hosts: flume0
+  sudo: true
+  tasks:
+    - shell: hostname flume0
+    - shell: /etc/init.d/network restart
+
+- hosts: yarn0
+  sudo: true
+  tasks:
+    - shell: hostname yarn0
+    - shell: /etc/init.d/network restart
+
+- hosts: hive0
+  sudo: true
+  tasks:
+    - shell: hostname hive0
+    - shell: /etc/init.d/network restart
+
+- hosts: solr0
+  sudo: true
+  tasks:
+    - shell: hostname solr0
+    - shell: /etc/init.d/network restart
+
+- hosts: spark0
+  sudo: true
+  tasks:
+    - shell: hostname spark0
+    - shell: /etc/init.d/network restart
+
 - hosts: all
   sudo: true
   tasks:
